@@ -1,9 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
+import styles from "../styles/Home.module.css";
+import { BiLinkExternal } from "react-icons/bi";
 
 export default function Home() {
   const [users, setUsers] = useState([]);
-
-  const [name, setName] = useState("");
 
   useEffect(() => {
     getUsers();
@@ -11,36 +12,54 @@ export default function Home() {
 
   async function getUsers() {
     try {
-      const res = await fetch("http://localhost:3000/api");
+      const res = await fetch("https://jsonplaceholder.typicode.com/users");
       const data = await res.json();
-      console.log(data);
-      setUsers([]);
+      setUsers(data);
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <div>
-      {users.map((user) => (
-        <p className="text-blue-400" key={user.id}>
-          {user.name}
-        </p>
-      ))}
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1>Harsh Pandey</h1>
+        <ul>
+          <li>Home</li>
+          <li>Pricing</li>
+          <li>Products</li>
+          <li>About</li>
+        </ul>
+      </div>
+      <div className={styles.cards}>
+        {users.map((user) => (
+          <Card key={user.id} user={user} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+function Card({ user }) {
+  const { name, email, website, address } = user;
+  const { street, suite, city } = address;
 
+  return (
+    <div className={styles.card}>
       <img
-        style={{
-          width: 300,
-        }}
-        src={`https://api.dicebear.com/5.x/pixel-art/svg?seed=${name}`}
+        src={`https://api.dicebear.com/5.x/avataaars/svg?seed=${user.name}`}
         alt=""
       />
+      <div className={styles.basic}>
+        <h2>{name}</h2>
+        <a>
+          {website} <BiLinkExternal />
+        </a>
+        <p>{email}</p>
+        <p>
+          {street}, {suite}, {city}
+        </p>
+      </div>
     </div>
   );
 }

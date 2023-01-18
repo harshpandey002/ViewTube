@@ -35,6 +35,15 @@ export default function Home() {
         {users.map((user) => (
           <Card key={user.id} user={user} />
         ))}
+        {users.map((user) => (
+          <Card key={user.id} user={user} />
+        ))}
+        {users.map((user) => (
+          <Card key={user.id} user={user} />
+        ))}
+        {users.map((user) => (
+          <Card key={user.id} user={user} />
+        ))}
       </div>
     </div>
   );
